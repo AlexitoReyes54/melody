@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Melody</title>
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+		crossorigin="anonymous">
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+		crossorigin="anonymous"></script>
+
+
+
+	<style>
+		/* The box we will animate */
+		.test-box {
+			width: 50px;
+			height: 50px;
+			background-color: #ff4757;
+			border-radius: 8px;
+		}
+
+		button:hover {
+			background-color: transparent !important;
+			border-color: revert !important;
+			color: revert !important;
+		}
+	</style>
+
+	<script src="https://cdn.jsdelivr.net/npm/animejs/dist/bundles/anime.umd.min.js"></script>
+	<script src="http://unpkg.com/tone"></script>
+	<script type="module" src="./js/constants.js"></script>
+	<script type="module" src="./js/state.js"></script>
+	<script type="module" src="./js/melody.js"></script>
+</head>
+
+<body class="bg-dark">
+
+	<div class="mx-8 container">
+
+		<div class="d-flex flex-column justify-content-start align-items-center m-0 vh-100  bg-dark">
+
+			<h3 class="text-warning my-8  mt-4" id="streak-display">Streak: 0</h3>
+			<div id="screen" class="bg-info w-100 h-25"></div>
+
+			<div id="notesGrid" class="container mt-4">
+				<div class="row mb-3">
+					<div class="col-4">
+						<button type="button" id="do"
+							class="p-3 btn btn-outline-primary w-100 h-100">Do</button>
+					</div>
+					<div class="col-4">
+						<button type="button" id="do-sharp"
+							class="p-3 btn btn-outline-primary w-100 h-100">Do#</button>
+					</div>
+					<div class="col-4">
+						<button type="button" id="re"
+							class="p-3 btn btn-outline-primary w-100 h-100">Re</button>
+					</div>
+				</div>
+
+				<div class="row mb-3">
+					<div class="col-4">
+						<button type="button" id="re-sharp"
+							class="p-3 btn btn-outline-primary w-100 h-100">Re#</button>
+					</div>
+					<div class="col-4">
+						<button type="button" id="mi"
+							class="p-3 btn btn-outline-primary w-100 h-100">Mi</button>
+					</div>
+					<div class="col-4">
+						<button type="button" id="fa"
+							class="p-3 btn btn-outline-primary w-100 h-100">Fa</button>
+					</div>
+				</div>
+
+				<div class="row mb-3">
+					<div class="col-4">
+						<button type="button" id="fa-sharp"
+							class="p-3 btn btn-outline-primary w-100 h-100">Fa#</button>
+					</div>
+					<div class="col-4">
+						<button type="button" id="sol"
+							class="p-3 btn btn-outline-primary w-100 h-100">Sol</button>
+					</div>
+					<div class="col-4">
+						<button type="button" id="sol-sharp"
+							class="p-3 btn btn-outline-primary w-100 h-100">Sol#</button>
+					</div>
+				</div>
+
+				<div class="row mb-3">
+					<div class="col-4">
+						<button type="button" id="la"
+							class="p-3 btn btn-outline-primary w-100 h-100">La</button>
+					</div>
+					<div class="col-4">
+						<button type="button" id="la-sharp"
+							class="p-3 btn btn-outline-primary w-100 h-100">La#</button>
+					</div>
+					<div class="col-4">
+						<button type="button" id="si"
+							class="p-3 btn btn-outline-primary w-100 h-100">Si</button>
+					</div>
+				</div>
+			</div>
+			<p class="text-light">Made with ❤️ & ☕ by Alexito</p>
+
+
+		</div>
+
+
+
+		<!-- welcome Modal -->
+		<div class="modal fade" id="welcomeModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+			data-bs-theme="dark" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<h2 class="h3 text-uppercase fw-bold text-primary mb-3">Reglas del juego
+						</h2>
+						<!-- Unnumbered List -->
+						<ul class="list-unstyled ps-3">
+							<li class="mb-2 position-relative">
+								<span class="text-primary me-2">•</span> Repite el
+								patrón de botones
+							</li>
+							<li class="mb-2 position-relative">
+								<span class="text-primary me-2">•</span> Intenta
+								mantener una racha alta
+							</li>
+							<li class="mb-2 position-relative">
+								<span class="text-primary me-2">•</span> Intenta
+								posicionarte como top en el leaderboard
+							</li>
+						</ul>
+
+						<hr>
+
+						<input class="form-control" id="nicknameInput" type="text"
+							placeholder="Nickname para el racking">
+					</div>
+
+					<div class="modal-footer d-flex justify-content-center align-items-center">
+
+
+						<!--  NOTE: i need to call a fn that updates this i guuess or hold-->
+						<button id="closeWelcomeModalBtn" type="button" class="btn btn-danger"
+							ddata-bs-dismiss="modal">Iniciar el juego</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+
+
+		<!-- end Modal -->
+		<div class="modal fade" id="endModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+			data-bs-theme="dark" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<h2 class="h3 text-uppercase fw-bold text-primary mb-3">Gracias por
+							jugar
+						</h2>
+
+					</div>
+
+					<div class="modal-footer d-flex justify-content-center align-items-center">
+
+
+						<!--  NOTE: i need to call a fn that updates this i guuess or hold-->
+
+						<button id="closeEndModalBtn" type="button" class="btn btn-danger"
+							data-bs-dismiss="modal">Jugar otra vez </button>
+
+						<a class="btn btn-primary" href="/table">Ir al
+							ranking </a>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+
+		k
+	</div>
+
+	<script>
+
+
+
+	</script>
+
+</body>
+
+</html>
