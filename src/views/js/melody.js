@@ -1,4 +1,3 @@
-import anime from 'https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.es.js';
 const { animate } = anime;
 import { globalState } from './state.js';
 import { KeyToPitch } from './constants.js';
